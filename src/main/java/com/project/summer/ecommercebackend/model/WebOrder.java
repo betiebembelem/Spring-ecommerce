@@ -2,9 +2,14 @@ package com.project.summer.ecommercebackend.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 @Entity
 @Table(name = "web_orders")
-public class WebOrders {
+public class WebOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -17,6 +22,18 @@ public class WebOrders {
     @ManyToOne(optional = false)
     @JoinColumn(name = "adress_id", nullable = false)
     private Adress adress;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<WebOrderQuantities> quantities = new ArrayList<>();
+
+    public List<WebOrderQuantities> getQuantities() {
+        return quantities;
+    }
+
+    public void setQuantities(List<WebOrderQuantities> quantities) {
+        this.quantities = quantities;
+    }
+
 
     public Adress getAdress() {
         return adress;
